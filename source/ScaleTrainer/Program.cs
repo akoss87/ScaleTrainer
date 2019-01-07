@@ -10,18 +10,23 @@ namespace ScaleTrainer
 {
     class Program
     {
+        // scaletrainer print-Circle ionian
         static void Main(string[] args)
         {
             if (args.Length > 0)
-                switch (args[0].ToLowerInvariant())
+            {
+                if ("print-circle".Equals(args[0], StringComparison.OrdinalIgnoreCase))
                 {
-                    case "--print-majors":
-                        PrintDiatonicScales(Ionian);
-                        break;
-                    case "--print-minors":
-                        PrintDiatonicScales(Aeolian);
-                        break;
+                    DiatonicMode diatonicMode;
+
+                    if (args.Length > 1)
+                        diatonicMode = (DiatonicMode)Enum.Parse(typeof(DiatonicMode), args[1], ignoreCase: true);
+                    else
+                        diatonicMode = Major;
+
+                    PrintDiatonicScales(diatonicMode);
                 }
+            }
         }
 
         private static void PrintDiatonicScales(DiatonicMode diatonicMode)
