@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleTrainer", "ScaleTrainer\ScaleTrainer.csproj", "{C1EA0A7F-8EB8-44F0-88D9-98B4045C10AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music", "Music\Music.csproj", "{380D94EF-20F3-4279-BA62-3620EA19430F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1EA0A7F-8EB8-44F0-88D9-98B4045C10AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EA0A7F-8EB8-44F0-88D9-98B4045C10AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EA0A7F-8EB8-44F0-88D9-98B4045C10AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EA0A7F-8EB8-44F0-88D9-98B4045C10AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{380D94EF-20F3-4279-BA62-3620EA19430F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380D94EF-20F3-4279-BA62-3620EA19430F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380D94EF-20F3-4279-BA62-3620EA19430F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380D94EF-20F3-4279-BA62-3620EA19430F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF08BA31-2DA5-42A3-B398-525FAC6878EB}
+	EndGlobalSection
+EndGlobal
