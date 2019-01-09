@@ -17,28 +17,25 @@ namespace Music
             return new Note[NumberOfDegrees + 1];
         }
 
-        public static void GetNotes(Note[] notes, Note keyNote, DiatonicMode diatonicMode)
+        public static IEnumerable<Note> GetNotes(Note keyNote, DiatonicMode diatonicMode)
         {
-            if (notes == null)
-                throw new ArgumentNullException(nameof(notes));
-
-            if (notes.Length != NumberOfDegrees + 1)
-                throw new ArgumentException(null, nameof(notes));
-
             if (diatonicMode < DiatonicMode.Ionian || diatonicMode > DiatonicMode.Locrian)
                 throw new ArgumentOutOfRangeException(nameof(diatonicMode));
 
             var pitch = new Pitch(keyNote, 4);
             int intervalIndex = diatonicMode - DiatonicMode.Ionian;
-            for (int degree = 0; degree <= NumberOfDegrees; degree++)
+            for (; ; )
             {
-                notes[degree] = pitch.Note;
+                yield return pitch.Note;
 
                 pitch += s_majorScaleIntervals[intervalIndex];
 
                 intervalIndex++;
                 if (intervalIndex >= NumberOfDegrees)
+                {
                     intervalIndex -= NumberOfDegrees;
+                    pitch -= Interval.PerfectOctave;
+                }
             }
         }
     }

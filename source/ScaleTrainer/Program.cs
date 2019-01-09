@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Music;
 
@@ -11,7 +12,7 @@ namespace ScaleTrainer
     class Program
     {
         // scaletrainer print-Circle ionian
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length > 0)
             {
@@ -31,9 +32,7 @@ namespace ScaleTrainer
 
         private static void PrintDiatonicScales(DiatonicMode diatonicMode)
         {
-            var notes = CreateScaleArray();
-
-            GetNotes(notes, Note.GFlat, Major);
+            var notes = GetNotes(Note.GFlat, Major).Take(NumberOfDegrees + 1).ToArray();
 
             var keyNote = notes[diatonicMode - Ionian];
 
@@ -45,7 +44,7 @@ namespace ScaleTrainer
             var sb = new StringBuilder();
             for (var i = -SemitonesPerOctave / 2; i <= SemitonesPerOctave / 2; i++)
             {
-                GetNotes(notes, keyNote, diatonicMode);
+                notes = GetNotes(keyNote, diatonicMode).Take(NumberOfDegrees + 1).ToArray();
 
                 sb.Clear();
                 if (i < 0)
