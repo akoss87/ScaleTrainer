@@ -37,13 +37,13 @@ namespace ScaleTrainer
             {
                 var command = args[0].ToLowerInvariant();
 
-                if (command == "-?" || command == "-h" || command == "/?" || command == "/h" || command == "--help")
+                if (command == "help" || command == "--help" || command == "-h" || command == "/h" || command == "-?" || command == "/?")
                 {
                     PrintUsage();
                     return;
                 }
 
-                // scaletrainer print-Circle ionian
+                // scaletrainer print-circle ionian
                 if (command == "print-circle")
                 {
                     DiatonicMode diatonicMode;
@@ -60,6 +60,8 @@ namespace ScaleTrainer
 
                     PrintDiatonicScales(diatonicMode);
                 }
+                else
+                    PrintUsage("Unknown command.");
             }
             else
                 Practice();
@@ -140,7 +142,8 @@ namespace ScaleTrainer
                 PrintExcercise(guitar, stringNumber, fretNumbers, maxFretNumber, questionStringIndex, questionFretIndex, position);
                 Console.WriteLine();
 
-                Console.WriteLine(questionStringIndex >= 0 ? "Enter scale degree: " : "Enter scale name: ");
+                Console.Write(questionStringIndex >= 0 ? "Enter scale degree: " : "Enter scale name: ");
+                Console.WriteLine($"({s_practiceStats.Stopwatch.Elapsed:hh':'mm':'ss})");
                 for (; ; )
                 {
                     var answer = Console.ReadLine()?.ToLowerInvariant();
@@ -337,8 +340,8 @@ namespace ScaleTrainer
 
             Console.WriteLine("Usage:");
             Console.WriteLine("");
-            Console.WriteLine("-?: Help");
-            Console.WriteLine("-print-circle <mode>: Prints the circle of fifths for the specified mode (Major if omitted).");
+            Console.WriteLine("help (-h): Help");
+            Console.WriteLine("print-circle <mode>: Prints the circle of fifths for the specified mode (Major if omitted).");
         }
     }
 }
