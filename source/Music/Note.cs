@@ -8,7 +8,7 @@ namespace Music
 
         private static readonly int[] s_naturalNoteToNumber = new int[7] { 0, 2, 4, 5, 7, 9, 11 };
 
-        private static readonly string[] s_standardNames = new string[Interval.SemitonesPerOctave] { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+        private static readonly string[] s_chromaticNames = new string[Interval.SemitonesPerOctave] { "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" };
 
         public static readonly Note C = new Note(NaturalNote.C);
         public static readonly Note CSharp = new Note(NaturalNote.C, Accidental.Sharp);
@@ -27,6 +27,15 @@ namespace Music
         public static readonly Note ASharp = new Note(NaturalNote.A, Accidental.Sharp);
         public static readonly Note BFlat = new Note(NaturalNote.B, Accidental.Flat);
         public static readonly Note B = new Note(NaturalNote.B);
+
+        public static int GetSemitonesBetween(NaturalNote naturalNote1, NaturalNote naturalNote2)
+        {
+            var number1 = s_naturalNoteToNumber[naturalNote1 - NaturalNote.C];
+            var number2 = s_naturalNoteToNumber[naturalNote2 - NaturalNote.C];
+            if (number1 > number2)
+                number1 -= Interval.SemitonesPerOctave;
+            return number2 - number1;
+        }
 
         private readonly NaturalNote _naturalNote;
         private readonly Accidental _accidental;
@@ -61,7 +70,7 @@ namespace Music
             }
         }
 
-        public string StandardName => s_standardNames[Number];
+        public string ChromaticName => s_chromaticNames[Number];
 
         public Note Flatten()
         {
@@ -79,6 +88,62 @@ namespace Music
                 return new Note(NaturalNote, ++accidental);
             else
                 throw new InvalidOperationException();
+        }
+
+        public Note Invert()
+        {
+            if (Accidental == Accidental.Natural)
+                return this;
+
+            NaturalNote newNaturalNote;
+            Accidental invertedAccidental;
+            NaturalNote naturalNote = _naturalNote;
+            if (Accidental > Accidental.Natural)
+            {
+                int semitonesDifference = Accidental - Accidental.Natural;
+                for (; ; )
+                {
+                    newNaturalNote = naturalNote + 1;
+                    if (newNaturalNote - NaturalNote.C >= NumberOfNaturalNotes)
+                        newNaturalNote -= NumberOfNaturalNotes;
+
+                    semitonesDifference -= GetSemitonesBetween(naturalNote, newNaturalNote);
+
+                    if (semitonesDifference < Accidental.DoubleFlat - Accidental.Natural)
+                        throw new InvalidOperationException();
+                    else if (semitonesDifference < Accidental.Natural - Accidental.Natural)
+                    {
+                        invertedAccidental = (Accidental)semitonesDifference;
+                        break;
+                    }
+
+                    naturalNote = newNaturalNote;
+                }
+            }
+            else
+            {
+                int semitonesDifference = Accidental - Accidental.Natural;
+                for (; ; )
+                {
+                    newNaturalNote = naturalNote - 1;
+                    if (newNaturalNote - NaturalNote.C < 0)
+                        newNaturalNote += NumberOfNaturalNotes;
+
+                    semitonesDifference += Interval.SemitonesPerOctave - GetSemitonesBetween(naturalNote, newNaturalNote);
+
+                    if (semitonesDifference > Accidental.DoubleSharp - Accidental.Natural)
+                        throw new InvalidOperationException();
+                    else if (semitonesDifference > Accidental.Natural - Accidental.Natural)
+                    {
+                        invertedAccidental = (Accidental)semitonesDifference;
+                        break;
+                    }
+
+                    naturalNote = newNaturalNote;
+                }
+            }
+
+            return new Note(newNaturalNote, invertedAccidental);
         }
 
         public override string ToString()
